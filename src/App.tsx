@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 
 const floatStyle = document.createElement("style");
 floatStyle.textContent = `
@@ -24,7 +24,7 @@ function runSanityChecks() {
 
 runSanityChecks();
 
-function NavButton({ label, active, onClick }) {
+function NavButton({ label, active, onClick }: { label: string; active: boolean; onClick: () => void }) {
   return (
     <button
       type="button"
@@ -40,7 +40,7 @@ function NavButton({ label, active, onClick }) {
   );
 }
 
-function PrimaryButton({ children, onClick }) {
+function PrimaryButton({ children, onClick }: { children: React.ReactNode; onClick: () => void }) {
   return (
     <button
       type="button"
@@ -52,7 +52,7 @@ function PrimaryButton({ children, onClick }) {
   );
 }
 
-function SecondaryButton({ children, onClick }) {
+function SecondaryButton({ children, onClick }: { children: React.ReactNode; onClick: () => void }) {
   return (
     <button
       type="button"
@@ -64,7 +64,7 @@ function SecondaryButton({ children, onClick }) {
   );
 }
 
-function SectionEyebrow({ children, light = false }) {
+function SectionEyebrow({ children, light = false }: { children: React.ReactNode; light?: boolean }) {
   return (
     <p
       className={`text-xs uppercase tracking-[0.35em] ${
@@ -76,7 +76,7 @@ function SectionEyebrow({ children, light = false }) {
   );
 }
 
-function ProductMockup({ dark = false }) {
+function ProductMockup({ dark = false }: { dark?: boolean }) {
   return (
     <div
       style={{ animation: "float 4.5s ease-in-out infinite" }}
@@ -119,7 +119,7 @@ function ProductMockup({ dark = false }) {
   );
 }
 
-function SiteShell({ currentPage, setCurrentPage, children }) {
+function SiteShell({ currentPage, setCurrentPage, children }: { currentPage: string; setCurrentPage: (page: string) => void; children: React.ReactNode }) {
   return (
     <div className="min-h-screen bg-white text-black">
       <header className="sticky top-0 z-30 border-b border-black/10 bg-white/90 backdrop-blur">
@@ -204,7 +204,7 @@ function SiteShell({ currentPage, setCurrentPage, children }) {
   );
 }
 
-function HomePage({ features, ingredients, taglines, setCurrentPage }) {
+function HomePage({ features, ingredients, taglines, setCurrentPage }: { features: string[]; ingredients: {name: string; role: string}[]; taglines: string[]; setCurrentPage: (page: string) => void }) {
   return (
     <>
       <section className="border-b border-black/10">
