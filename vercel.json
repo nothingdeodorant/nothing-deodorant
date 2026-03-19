@@ -1,0 +1,12 @@
+{
+    "buildCommand": "npx react-scripts build",
+    "env": {
+      "TSC_COMPILE_ON_ERROR": "true",
+      "DISABLE_ESLINT_PLUGIN": "true"
+    }
+  }
+  ```
+  
+  4. Also click on **`package.json`** and find the `"build"` script line and change it to:
+  ```
+  "build": "react-scripts build",
