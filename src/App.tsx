@@ -28,38 +28,23 @@ async function submitToBeehiiv(email: string): Promise<boolean> {
 }
 
 function WaitlistForm({ dark = false }: { dark?: boolean }) {
-  const [email, setEmail] = useState("");
-  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
-
-  const handleSubmit = async () => {
-    if (!email || !email.includes("@")) { setStatus("error"); return; }
-    setStatus("loading");
-    const ok = await submitToBeehiiv(email);
-    setStatus(ok ? "success" : "error");
-  };
-
-  if (status === "success") return (
-    <div style={{marginTop: '8px', padding: '12px 16px', borderRadius: '14px', background: dark ? 'rgba(255,255,255,0.1)' : '#f0fdf4', color: dark ? 'white' : '#166534', fontSize: '14px', textAlign: 'center'}}>
-      ✓ You're on the list! We'll be in touch.
-    </div>
-  );
-
   return (
-    <div style={{display: 'flex', gap: '10px', flexWrap: 'wrap'}}>
-      <input
-        value={email}
-        onChange={e => { setEmail(e.target.value); setStatus("idle"); }}
-        onKeyDown={e => e.key === "Enter" && handleSubmit()}
-        style={{flex: 1, minWidth: '200px', height: '46px', borderRadius: '14px', border: dark ? `1px solid ${status === 'error' ? '#f87171' : 'rgba(255,255,255,0.25)'}` : `1px solid ${status === 'error' ? '#f87171' : '#d1d5db'}`, background: dark ? 'rgba(255,255,255,0.1)' : 'white', padding: '0 16px', fontSize: '14px', color: dark ? 'white' : '#0a0a0a', outline: 'none'}}
-        placeholder={status === 'error' ? 'Please enter a valid email' : 'Enter your email'}
+    <div style={{marginTop: '8px'}}>
+      <script async src="https://subscribe-forms.beehiiv.com/embed.js"></script>
+      <iframe
+        src="https://subscribe-forms.beehiiv.com/bb8d5fa1-dde5-496b-9f56-e46e5cb04e34"
+        frameBorder={0}
+        scrolling="no"
+        style={{
+          width: '100%',
+          height: '80px',
+          margin: 0,
+          borderRadius: '14px',
+          background: 'transparent',
+          boxShadow: 'none',
+          maxWidth: '100%',
+        }}
       />
-      <button
-        onClick={handleSubmit}
-        disabled={status === 'loading'}
-        style={{height: '46px', borderRadius: '14px', background: dark ? 'white' : '#0a0a0a', color: dark ? '#0a0a0a' : 'white', padding: '0 22px', fontSize: '14px', fontWeight: 600, border: 'none', cursor: 'pointer', whiteSpace: 'nowrap', opacity: status === 'loading' ? 0.7 : 1}}
-      >
-        {status === 'loading' ? 'Joining...' : 'Join Waitlist →'}
-      </button>
     </div>
   );
 }
