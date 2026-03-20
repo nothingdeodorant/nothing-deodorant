@@ -8,6 +8,62 @@ floatStyle.textContent = `
 `;
 document.head.appendChild(floatStyle);
 
+const BEEHIIV_PUB_ID = "pub_700a1fc9-fe95-4bca-9282-511ed29f5233";
+const BEEHIIV_API_KEY = "6PNqelHbE8KaycGWaACn4MPIJiptcMMjyc7ejsvxOzYdVD4VJue4sDQgQoNmjsTS";
+
+async function submitToBeehiiv(email: string): Promise<boolean> {
+  try {
+    const res = await fetch(`https://api.beehiiv.com/v2/publications/${BEEHIIV_PUB_ID}/subscriptions`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${BEEHIIV_API_KEY}`,
+      },
+      body: JSON.stringify({ email, reactivate_existing: true, send_welcome_email: false }),
+    });
+    return res.ok;
+  } catch {
+    return false;
+  }
+}
+
+function WaitlistForm({ dark = false }: { dark?: boolean }) {
+  const [email, setEmail] = useState("");
+  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+
+  const handleSubmit = async () => {
+    if (!email || !email.includes("@")) { setStatus("error"); return; }
+    setStatus("loading");
+    const ok = await submitToBeehiiv(email);
+    setStatus(ok ? "success" : "error");
+  };
+
+  if (status === "success") return (
+    <div style={{marginTop: '8px', padding: '12px 16px', borderRadius: '14px', background: dark ? 'rgba(255,255,255,0.1)' : '#f0fdf4', color: dark ? 'white' : '#166534', fontSize: '14px', textAlign: 'center'}}>
+      ✓ You're on the list! We'll be in touch.
+    </div>
+  );
+
+  return (
+    <div style={{display: 'flex', gap: '10px', flexWrap: 'wrap'}}>
+      <input
+        value={email}
+        onChange={e => { setEmail(e.target.value); setStatus("idle"); }}
+        onKeyDown={e => e.key === "Enter" && handleSubmit()}
+        style={{flex: 1, minWidth: '200px', height: '46px', borderRadius: '14px', border: dark ? `1px solid ${status === 'error' ? '#f87171' : 'rgba(255,255,255,0.25)'}` : `1px solid ${status === 'error' ? '#f87171' : '#d1d5db'}`, background: dark ? 'rgba(255,255,255,0.1)' : 'white', padding: '0 16px', fontSize: '14px', color: dark ? 'white' : '#0a0a0a', outline: 'none'}}
+        placeholder={status === 'error' ? 'Please enter a valid email' : 'Enter your email'}
+      />
+      <button
+        onClick={handleSubmit}
+        disabled={status === 'loading'}
+        style={{height: '46px', borderRadius: '14px', background: dark ? 'white' : '#0a0a0a', color: dark ? '#0a0a0a' : 'white', padding: '0 22px', fontSize: '14px', fontWeight: 600, border: 'none', cursor: 'pointer', whiteSpace: 'nowrap', opacity: status === 'loading' ? 0.7 : 1}}
+      >
+        {status === 'loading' ? 'Joining...' : 'Join Waitlist →'}
+      </button>
+    </div>
+  );
+}
+
 // Clean single-file prototype for the Nothing deodorant site.
 const PAGES = ["Home", "Shop", "How It Works", "Ingredients", "About", "FAQ"];
 
@@ -234,14 +290,8 @@ function HomePage({ features, ingredients, taglines, setCurrentPage }: { feature
               <p style={{marginTop: '10px', fontSize: '14px', lineHeight: '1.7', color: 'rgba(255,255,255,0.65)'}}>
                 Join the waitlist — get early access and launch pricing before anyone else.
               </p>
-              <div style={{marginTop: '20px', display: 'flex', gap: '10px'}}>
-                <input
-                  style={{flex: 1, height: '46px', borderRadius: '14px', border: '1px solid rgba(255,255,255,0.25)', background: 'rgba(255,255,255,0.1)', padding: '0 16px', fontSize: '14px', color: 'white', outline: 'none'}}
-                  placeholder="Enter your email"
-                />
-                <button style={{height: '46px', borderRadius: '14px', background: 'white', color: 'black', padding: '0 22px', fontSize: '14px', fontWeight: 600, border: 'none', cursor: 'pointer', whiteSpace: 'nowrap'}}>
-                  Join Waitlist →
-                </button>
+              <div style={{marginTop: '20px'}}>
+                <WaitlistForm dark={true} />
               </div>
               <p style={{marginTop: '14px', fontSize: '11px', color: 'rgba(255,255,255,0.35)'}}>No spam. Just a heads-up when we launch.</p>
             </div>
@@ -403,14 +453,8 @@ function HomePage({ features, ingredients, taglines, setCurrentPage }: { feature
             Join the waitlist for the first production run of Nothing.
           </p>
 
-          <div className="mx-auto mt-10 flex max-w-xl flex-col gap-3 sm:flex-row">
-            <input
-              className="h-12 flex-1 rounded-2xl border border-black/15 bg-white px-4 text-sm outline-none placeholder:text-black/35"
-              placeholder="Enter your email"
-            />
-            <button className="h-12 rounded-2xl bg-black px-6 text-sm font-medium text-white transition hover:opacity-90">
-              Join Waitlist
-            </button>
+          <div className="mx-auto mt-10 max-w-xl">
+            <WaitlistForm dark={false} />
           </div>
         </div>
       </section>
