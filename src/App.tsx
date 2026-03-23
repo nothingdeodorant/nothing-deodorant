@@ -233,7 +233,7 @@ function SiteShell({ currentPage, setCurrentPage, children }: { currentPage: str
       {children}
 
       <footer style={{borderTop: '1px solid #e5e5e5', background: '#fafafa'}}>
-        <div style={{maxWidth: '1200px', margin: '0 auto', padding: '48px 32px', display: 'grid', gridTemplateColumns: '2fr 1fr 1fr', gap: '40px', textAlign: 'left'}}>
+        <div style={{maxWidth: '1200px', margin: '0 auto', padding: '48px clamp(20px, 5vw, 32px)', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: '40px', textAlign: 'left'}}>
           <div style={{textAlign: 'left'}}>
             <div style={{fontSize: '20px', fontWeight: 600, letterSpacing: '0.18em', textAlign: 'left'}}>NOTHING</div>
             <p style={{marginTop: '12px', fontSize: '13px', lineHeight: '1.7', color: '#666', maxWidth: '280px', textAlign: 'left'}}>
@@ -272,9 +272,10 @@ function HomePage({ features, ingredients, taglines, setCurrentPage }: { feature
   return (
     <>
       <section className="border-b border-black/10">
-        <div style={{maxWidth: '1200px', margin: '0 auto', padding: '80px 32px', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '60px', alignItems: 'center'}}>
+        <div style={{maxWidth: '1200px', margin: '0 auto', padding: 'clamp(40px, 8vw, 80px) clamp(20px, 5vw, 32px)'}}>
+          <div style={{display: 'grid', gridTemplateColumns: '1fr', gap: '40px', alignItems: 'center'}} className="md:grid-cols-2">
           <div>
-            <div style={{display: 'inline-flex', border: '1px solid black', borderRadius: '999px', padding: '4px 14px', fontSize: '11px', letterSpacing: '0.3em', textTransform: 'uppercase', marginBottom: '24px'}}>
+            <div style={{display: 'inline-flex', border: '1px solid black', borderRadius: '999px', padding: '4px 12px', fontSize: '11px', letterSpacing: '0.15em', textTransform: 'uppercase', marginBottom: '24px', whiteSpace: 'nowrap'}}>
               Fragrance-Free Deodorant
             </div>
 
@@ -305,9 +306,10 @@ function HomePage({ features, ingredients, taglines, setCurrentPage }: { feature
             </div>
           </div>
 
-          <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+          <div className="hidden md:flex" style={{alignItems: 'center', justifyContent: 'center'}}>
             <ProductMockup />
           </div>
+        </div>
         </div>
       </section>
 
