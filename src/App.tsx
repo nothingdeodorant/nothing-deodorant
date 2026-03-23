@@ -73,7 +73,7 @@ function WaitlistForm({ dark = false }: { dark?: boolean }) {
 }
 
 // Clean single-file prototype for the Nothing deodorant site.
-const PAGES = ["Home", "Shop", "How It Works", "Ingredients", "About", "FAQ"];
+const PAGES = ["Home", "How It Works", "Ingredients", "About", "FAQ"];
 
 function normalizePage(value) {
   return PAGES.includes(value) ? value : "Home";
@@ -413,13 +413,6 @@ function HomePage({ features, ingredients, taglines, setCurrentPage }: { feature
           <div>
             <h2 className="mt-4 text-4xl font-semibold tracking-tight md:text-5xl">The idea is simple.</h2>
           </div>
-          <button
-            type="button"
-            onClick={() => setCurrentPage("Shop")}
-            className="hidden rounded-2xl border border-black px-5 py-3 text-sm font-medium transition hover:bg-black hover:text-white md:block"
-          >
-            View Product Page
-          </button>
         </div>
 
         <div className="mt-12 grid gap-8 lg:grid-cols-3">
@@ -944,9 +937,7 @@ export default function NothingDeodorantWebsite() {
 
   let page;
 
-  if (currentPage === "Shop") {
-    page = <ShopPage />;
-  } else if (currentPage === "How It Works") {
+  if (currentPage === "How It Works") {
     page = <HowItWorksPage />;
   } else if (currentPage === "Ingredients") {
     page = <IngredientsPage />;
